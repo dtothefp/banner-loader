@@ -14,6 +14,11 @@ require("banner?postfix=demo.txt!./file.js");
 require("banner?prefix=demo.txt&delimiter=\n!./file.js");
 ```
 
+``` javascript
+//strip `use strict` statements and re-add them in the banner, useful for use after babel-loader
+require("banner?prefix=demo.txt&delimiter=\n!&remove=strict./file.js");
+```
+
 [Documentation: Using loaders](http://webpack.github.io/docs/using-loaders.html)
 
 ## License
