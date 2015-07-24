@@ -24,10 +24,11 @@ module.exports = function(content, sourceMap) {
   var query = loaderUtils.parseQuery(this.query);
   getFileContents(query.prefix, function(prefix) {
     getFileContents(query.postfix, function(postfix) {
+      var re = /('|")use\sstrict('|");?/;
 
       // Prepare delimier
       var delimiter = typeof query.delimiter === 'string' ? query.delimiter : '';
-      
+
       // Prepare prefix
       if(prefix !== false) {
         self.addDependency(query.prefix);
@@ -35,13 +36,19 @@ module.exports = function(content, sourceMap) {
       } else {
         prefix = '';
       }
-      
+
       // Prepare postfix
       if(postfix !== false) {
         self.addDependency(query.postfix);
         postfix = delimiter + postfix;
       } else {
         postfix = '';
+      }
+
+      if(query.remove && query.remove === 'strict') {
+        if(typeof content === 'string') {
+          content = content.replace(re, '');
+        }
       }
 
       // Build content
